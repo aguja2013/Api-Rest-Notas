@@ -1,0 +1,19 @@
+{
+  "name": "api-create-notes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aguja2013/Api-Rest-Notas.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aguja2013/Api-Rest-Notas/issues"
+  },
+  "homepage": "https://github.com/aguja2013/Api-Rest-Notas#readme"
+}
