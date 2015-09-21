@@ -36,6 +36,14 @@ describe('recurso /notas', function() {
 
          // Nota existe
          expect(body).to.have.property('nota')
+         var nota = body.nota
+
+         // Propiedades
+         expect(nota).to.have.property('title', 'Mejorando.la #node-pro')
+         expect(nota).to.have.property('description', 'Introduccion a clase')
+         expect(nota).to.have.property('type', 'js')
+         expect(nota).to.have.property('body', 'soy el cuerpo de json')
+         expect(nota).to.have.property('id')
 		})
   	})
 
