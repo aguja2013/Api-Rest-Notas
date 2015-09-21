@@ -9,7 +9,7 @@ request = request(host)
 describe('recurso /notas', function() {
 
   describe('POST', function() {
-  	it('deberia crear una nota', function() {
+  	it('deberia crear una nota', function(done) {
       var data = {
         "nota": {
           "title": "Mejorando.la #node-pro",
@@ -21,12 +21,13 @@ describe('recurso /notas', function() {
 
        // libreria supertest:
        // hago un request al servidor:
+       // crear solicitud de http enviando data
 
      request
        .post('/notas')
 // Accept application/json
        .set('Accept', 'application/json')
-       .send(data)
+       // .send(data)
 // Status Code = 201
        .expect(201)
        .expect('Content-Type', /application\/json/)
@@ -44,6 +45,7 @@ describe('recurso /notas', function() {
          expect(nota).to.have.property('type', 'js')
          expect(nota).to.have.property('body', 'soy el cuerpo de json')
          expect(nota).to.have.property('id')
+         done()
 		})
   	})
 
