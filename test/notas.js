@@ -25,9 +25,9 @@ describe('recurso /notas', function() {
 
      request
        .post('/notas')
+       .send(data)
 // Accept application/json
        .set('Accept', 'application/json')
-       // .send(data)
 // Status Code = 201
        .expect(201)
        .expect('Content-Type', /application\/json/)
