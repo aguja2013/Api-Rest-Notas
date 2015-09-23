@@ -1,4 +1,4 @@
-var request = require('supertest')
+var request = require('supertest-as-promised')
 var api = require('../server.js')
 // correr las pruebas con diferentes hosts:
 var host = process.env.API_TEST_HOST || api
@@ -62,6 +62,7 @@ describe('GET', function() {
           "body": "soy el cuerpo de json"
         }
        }
+       var id
 
        // libreria supertest:
        // hago un request al servidor:
@@ -75,26 +76,25 @@ describe('GET', function() {
 // Status Code = 201
        .expect(201)
        // .expect('Content-Type', /application\/json/)
-       .end(function(err, res) {
+       .then(function(res){
+         id = res.body.nota.id
 
-         var id = res.body.nota.id
-
-         request
+         return request
          	.get('/notas/' + id)
          	.expect(200)
          	.expect('Content-Type', /application\/json/)
-         	.end(function(err, res) {
-         		var nota = res.body.notas
+         }, done)
+		.then(function(res){
+			var nota = res.body.notas
 
-         // Propiedades
-         expect(nota).to.have.property('title', 'Mejorando.la #node-pro')
-         expect(nota).to.have.property('description', 'Introduccion a clase')
-         expect(nota).to.have.property('type', 'js')
-         expect(nota).to.have.property('body', 'soy el cuerpo de json')
-         expect(nota).to.have.property('id', id)
-         done()
-		})
-  	})
+			// Propiedades
+			expect(nota).to.have.property('title', 'Mejorando.la #node-pro')
+			expect(nota).to.have.property('description', 'Introduccion a clase')
+			expect(nota).to.have.property('type', 'js')
+			expect(nota).to.have.property('body', 'soy el cuerpo de json')
+			expect(nota).to.have.property('id', id)
+			done()	
+  	}, done)
 
    })
 

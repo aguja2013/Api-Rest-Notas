@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/aguja2013/Api-Rest-Notas#readme",
   "devDependencies": {
+    "async": "^1.4.2",
     "chai": "^3.3.0",
     "express": "^4.13.3",
     "mocha": "^2.3.3",
