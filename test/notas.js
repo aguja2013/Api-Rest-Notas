@@ -1,7 +1,9 @@
-var request = require('supertest-as-promised')
+var request = require('supertest')
 var api = require('../server.js')
 // correr las pruebas con diferentes hosts:
 var host = process.env.API_TEST_HOST || api
+var async = require('async')
+
 
 request = request(host)
 
@@ -64,27 +66,29 @@ describe('GET', function() {
        }
        var id
 
-       // libreria supertest:
-       // hago un request al servidor:
-       // crear solicitud de http enviando data
+       async.waterfall([
+       	function crateNote(cb){
+			request
+				.post('/notas')
+				.send(data)
+				// Accept application/json
+				.set('Accept', 'application/json')
+				// Status Code = 201
+				.expect(201)
+				// .expect('Content-Type', /application\/json/)
+				.end(cb)
+		},
+		function getNote(res, cb){
+			id = res.body.nota.id
 
-     request
-       .post('/notas')
-       .send(data)
-// Accept application/json
-       .set('Accept', 'application/json')
-// Status Code = 201
-       .expect(201)
-       // .expect('Content-Type', /application\/json/)
-       .then(function(res){
-         id = res.body.nota.id
+			request
+				.get('/notas/' + id)
+				.expect(200)
+				.expect('Content-Type', /application\/json/)
+				.end(cb)
 
-         return request
-         	.get('/notas/' + id)
-         	.expect(200)
-         	.expect('Content-Type', /application\/json/)
-         }, done)
-		.then(function(res){
+		},
+		function assertions(res, cb){
 			var nota = res.body.notas
 
 			// Propiedades
@@ -93,10 +97,17 @@ describe('GET', function() {
 			expect(nota).to.have.property('type', 'js')
 			expect(nota).to.have.property('body', 'soy el cuerpo de json')
 			expect(nota).to.have.property('id', id)
-			done()	
-  	}, done)
+			done()
+			
+			}
+       	], done)
 
+
+       // libreria supertest:
+       // hago un request al servidor:
+       // crear solicitud de http enviando data
+
+ 
    })
-
   })
  })
